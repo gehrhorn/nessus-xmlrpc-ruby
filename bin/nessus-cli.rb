@@ -4,7 +4,7 @@
 # 
 # (C) Vlatko Kosturjak, Kost. Distributed under GPL and BSD (dual licensed).
 
-require 'nessus-xmlrpc'
+load 'lib/nessus-xmlrpc.rb' 
 require 'getoptlong'
 
 verbose = 0
