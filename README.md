@@ -64,7 +64,7 @@ end
 ```
 Take a look at nessus-cli.rb for more advanced examples.
 
-##= Contributing to nessus-xmlrpc
+## Contributing to nessus-xmlrpc
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
