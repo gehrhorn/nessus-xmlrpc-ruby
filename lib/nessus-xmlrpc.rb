@@ -332,11 +332,18 @@ class NessusXMLRPCrexml
 		end
 	end
 	
-	# get report by reportID and return XML file
+  # get an XML file that lists all the reports
+  def reports_list
+    post= { "token" => @token }
+    file=nessus_http_request('report/list', post)
+    return file 
+  end
+	
+  # get report by reportID and return XML file
 	# 
 	# returns: XML file of report (nessus v2 format)
-	def report_file_download(report)
-		post= { "token" => @token, "report" => report } 
+	def report_file_download(id)
+		post= { "token" => @token, "report" => id } 
 		file=nessus_http_request('file/report/download', post)
 		return file
 	end
@@ -344,8 +351,8 @@ class NessusXMLRPCrexml
 	# get report by reportID and return XML file (version 1)
 	# 
 	# returns: XML file of report (nessus v1 format)
-	def report_file1_download(report)
-		post= { "token" => @token, "report" => report, "v1" => "true" } 
+	def report_file1_download(id)
+		post= { "token" => @token, "report" => id, "v1" => "true" } 
 		file=nessus_http_request('file/report/download', post)
 		return file
 	end
@@ -505,7 +512,7 @@ class NessusXMLRPCnokogiri < NessusXMLRPCrexml
 	def policy_get_id(textname) 
 		post= { "token" => @token } 
 		docxml=nessus_request('policy/list', post)
-		return docxml.xpath("/reply/contents/policies/policy/policyName[text()='"+textname+"']/..policyID").collect(&:text)[0]
+    return docxml.xpath("/reply/contents/policies/policy[policyName='"+textname+"']/policyID").collect(&:text)
 	end	
 
 	def policy_list_uids
@@ -528,7 +535,14 @@ class NessusXMLRPCnokogiri < NessusXMLRPCrexml
 		return docxml.xpath("/reply/contents/policies/policy/policyName").collect(&:text)
 	end
 
-	def report_hosts(report_id)
+  # get an XML file that lists all the reports
+  def reports_list
+    post= { "token" => @token }
+    file=nessus_http_request('report/list', post)
+    return file 
+  end
+	
+  def report_hosts(report_id)
 		post= { "token" => @token, "report" => report_id } 
 		docxml=nessus_request('report/hosts', post)
 		return docxml.xpath("/reply/contents/hostList/host/hostname").collect(&:text)
